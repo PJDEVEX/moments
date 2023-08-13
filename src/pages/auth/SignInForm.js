@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
@@ -14,9 +14,13 @@ import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 import axios from "axios";
+import { SetCurrentUserContext } from "../../App";
 
-// Initialize signInData
 function SignInForm() {
+  // Access currentUser and setCurrentUser
+  const setCurrentUser = useContext(SetCurrentUserContext);
+
+  // Initialize signInData
   const [signInData, setSignInData] = useState({
     username: "",
     password: "",
@@ -44,7 +48,9 @@ function SignInForm() {
     event.preventDefault();
     try {
       // API call to signin user
-      await axios.post("/dj-rest-auth/login/", signInData);
+      const { data } = await axios.post("/dj-rest-auth/login/", signInData);
+      // Update currentUser in SignInForm.js after successful sign
+      setCurrentUser(data.user);
       // Redirect to "/" homepage on successful registration
       history.push("/");
     } catch (err) {
