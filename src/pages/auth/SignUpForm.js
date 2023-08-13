@@ -1,13 +1,57 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
-
-import { Form, Button, Image, Col, Row, Container } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Image,
+  Col,
+  Row,
+  Container,
+  Alert,
+} from "react-bootstrap";
+import axios from "axios";
 
 const SignUpForm = () => {
+  // Initialize signUpData
+  const [signUpData, setSignUpData] = useState({
+    username: "",
+    password1: "",
+    password2: "",
+  });
+
+  // Destructure data
+  const { username, password1, password2 } = signUpData;
+
+  // Implement error handling with useState for errors
+  const [errors, setErrors] = useState({});
+
+  // Use useHistory to redirect
+  const history = useHistory();
+
+  // handleChange function
+  const handleChange = (event) => {
+    setSignUpData({
+      ...signUpData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  // handleSubmit async function
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      // API call to register user
+      await axios.post("dj/rest-auth/registration/", signUpData);
+      // Redirect to /signin on successful registration
+      history.push("/signin");
+    } catch (err) {
+      setErrors(err.response?.data || {});
+    }
+  };
+
   return (
     <Row className={styles.Row}>
       <Col className="my-auto py-2 p-md-2" md={6}>
@@ -16,7 +60,7 @@ const SignUpForm = () => {
 
           {/* form */}
 
-          <Form>
+          <Form onSubmit={handleSubmit}>
             {/* Username */}
             <Form.Group className={styles.Input} controlId="username">
               <Form.Label className="d-none">username</Form.Label>
@@ -24,9 +68,15 @@ const SignUpForm = () => {
                 type="text"
                 placeholder="username"
                 name="username"
+                value={username}
+                onChange={handleChange}
               />
             </Form.Group>
-
+            {errors.username?.map((message, idx) => (
+              <Alert variant="warning" key={idx}>
+                {message}
+              </Alert>
+            ))}
             {/* Password */}
             <Form.Group className={styles.Input} controlId="password1">
               <Form.Label className="d-none">Password</Form.Label>
@@ -34,6 +84,8 @@ const SignUpForm = () => {
                 type="password"
                 placeholder="Password"
                 name="password1"
+                value={password1}
+                onChange={handleChange}
               />
             </Form.Group>
 
@@ -44,6 +96,8 @@ const SignUpForm = () => {
                 type="password"
                 placeholder="Confirm Password"
                 name="password2"
+                value={password2}
+                onChange={handleChange}
               />
             </Form.Group>
 
