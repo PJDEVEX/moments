@@ -44,9 +44,9 @@ const SignUpForm = () => {
     event.preventDefault();
     try {
       // API call to register user
-      await axios.post("dj/rest-auth/registration/", signUpData);
+      await axios.post('dj/rest-auth/registration/', signUpData);
       // Redirect to /signin on successful registration
-      history.push("/signin");
+      history.push('/signin');
     } catch (err) {
       setErrors(err.response?.data || {});
     }
@@ -72,11 +72,11 @@ const SignUpForm = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            {errors.username?.map((message, idx) => (
+            {errors.username?.map((message, idx) => 
               <Alert variant="warning" key={idx}>
                 {message}
               </Alert>
-            ))}
+            )}
             {/* Password */}
             <Form.Group className={styles.Input} controlId="password1">
               <Form.Label className="d-none">Password</Form.Label>
@@ -88,6 +88,11 @@ const SignUpForm = () => {
                 onChange={handleChange}
               />
             </Form.Group>
+            {errors.password1?.map((message, idx) => 
+              <Alert variant="warning" key={idx}>
+                {message}
+              </Alert>
+            )}
 
             {/* Confirm Password */}
             <Form.Group className={styles.Input} controlId="password2">
@@ -100,6 +105,11 @@ const SignUpForm = () => {
                 onChange={handleChange}
               />
             </Form.Group>
+            {errors.password2?.map((message, idx) => 
+              <Alert variant="warning" key={idx}>
+                {message}
+              </Alert>
+            )}
 
             <Button
               className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
@@ -108,6 +118,11 @@ const SignUpForm = () => {
               Signup
             </Button>
           </Form>
+          {errors.non_field_errors?.map((message, idx) => 
+              <Alert variant="warning" key={idx} className="mt-3">
+                {message}
+              </Alert>
+            )}
         </Container>
         <Container className={`mt-3 ${appStyles.Content}`}>
           <Link className={styles.Link} to="/signin">
