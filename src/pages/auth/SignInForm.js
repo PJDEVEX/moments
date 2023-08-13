@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
@@ -8,14 +8,49 @@ import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
+import axios from "axios";
 
+// Initialize signInData
 function SignInForm() {
-  //   Add your component logic here
+  const [signInData, setSignInData] = useState({
+    username: "",
+    password: "",
+  });
+
+  // Destructure signInData
+  const { username, password } = signInData;
+
+  // useHistory to redirect
+  const history = useHistory();
+
+  // error handling with useState for errors
+  const [errors, setErrors] = useState({});
+
+  // handleChange function
+  const handleChange = (event) => {
+    setSignInData({
+      ...signInData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  // handleSubmit async function
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      // API call to signin user
+      await axios.post("/dj-rest-auth/login/", signInData);
+      // Redirect to "/" homepage on successful registration
+      history.push("/");
+    } catch (err) {
+      setErrors(err.response?.data || {});
+    }
+  };
 
   return (
     <Row className={styles.Row}>
@@ -25,31 +60,50 @@ function SignInForm() {
 
           {/* Signin form */}
 
-          <Form>
-            <Form.Group
-            className= {styles.Input}
-            controlId="username">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className={styles.Input} controlId="username">
               <Form.Label className="d-none">Enter Username</Form.Label>
-              <Form.Control type="text" 
-              placeholder="Enter Username"
-              name="username" />
+              <Form.Control
+                type="text"
+                placeholder="Enter Username"
+                name="username"
+                value={username}
+                onChange={handleChange}
+              />
             </Form.Group>
+            {errors.username?.map((message, idx) => (
+              <Alert variant="warning" key={idx}>
+                {message}
+              </Alert>
+            ))}
 
-            <Form.Group 
-            className= {styles.Input}
-            controlId="password">
+            <Form.Group className={styles.Input} controlId="password">
               <Form.Label className="d-none">Password</Form.Label>
-              <Form.Control 
-              type="password"
-              placeholder="Password"
-              name='password' />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={password}
+                onChange={handleChange}
+              />
             </Form.Group>
-            <Button 
-            className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`} 
-            type="submit">
+            {errors.password?.map((message, idx) => (
+              <Alert variant="warning" key={idx}>
+                {message}
+              </Alert>
+            ))}
+            <Button
+              className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
+              type="submit"
+            >
               Signin
             </Button>
           </Form>
+          {errors.non_field_errors?.map((message, idx) => (
+            <Alert variant="warning" key={idx}>
+              {message}
+            </Alert>
+          ))}
         </Container>
         <Container className={`mt-3 ${appStyles.Content}`}>
           <Link className={styles.Link} to="/signup">
