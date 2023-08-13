@@ -44,7 +44,7 @@ const SignUpForm = () => {
     event.preventDefault();
     try {
       // API call to register user
-      await axios.post('dj/rest-auth/registration/', signUpData);
+      await axios.post('dj-rest-auth/registration/', signUpData);
       // Redirect to /signin on successful registration
       history.push('/signin');
     } catch (err) {
@@ -66,7 +66,7 @@ const SignUpForm = () => {
               <Form.Label className="d-none">username</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="username"
+                placeholder="Username"
                 name="username"
                 value={username}
                 onChange={handleChange}
