@@ -16,3 +16,7 @@ axios.defaults.withCredentials = true;
 // });
 
 // export default instance;
+
+// (1) Create axios instances for response and request interceptors
+export const axiosRes = axios.create();
+export const axiosReq = axios.create();
