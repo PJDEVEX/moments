@@ -1,13 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { CurrentUserContext } from "../App";
+
+import { useCurrentUser } from "./contexts/8.3.1\tCurrentUserContext";
 
 const NavBar = () => {
   // Access currentUser
-  const currentUser = useContext(CurrentUserContext);
+  // const currentUser = useContext(CurrentUserContext);
+  
+  // Access use CurrentUser 
+  // Modify the const currentUser = useContext(CurrentUserContext);
+  // to auto import useCurrentUser custom hook
+  const currentUser = useCurrentUser();
+  
   // logged in user icon
   const loggedInIcons = <>{currentUser?.username}</>;
   // icons that logged out user can see
