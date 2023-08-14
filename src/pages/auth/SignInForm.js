@@ -15,7 +15,7 @@ import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 import axios from "axios";
 
-import { useSetCurrentUser } from "../../components/contexts/8.3.1\tCurrentUserContext";
+import { useSetCurrentUser } from "../../components/contexts/CurrentUserContext";
 
 function SignInForm() {
   // Access currentUser and setCurrentUser

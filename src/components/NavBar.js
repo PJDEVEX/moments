@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
 
-import { useCurrentUser } from "./contexts/8.3.1\tCurrentUserContext";
+import { useCurrentUser } from "./contexts/CurrentUserContext";
 
 const NavBar = () => {
   // Access currentUser
