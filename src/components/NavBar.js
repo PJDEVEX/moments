@@ -4,19 +4,92 @@ import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
 
-import { useCurrentUser } from "./contexts/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "./contexts/CurrentUserContext";
+import Avatar from "./Avatar";
+import axios from "axios";
 
 const NavBar = () => {
   // Access currentUser
   // const currentUser = useContext(CurrentUserContext);
-  
-  // Access use CurrentUser 
+
+  // Access use CurrentUser
   // Modify the const currentUser = useContext(CurrentUserContext);
   // to auto import useCurrentUser custom hook
   const currentUser = useCurrentUser();
-  
+
+  // (7) Use the hook
+  const setCurrentUser = useSetCurrentUser();
+
+  // (8) Define signout function
+  const handleSignOut = async () => {
+    try {
+      // Make a POST request to the logout endpoint
+      await axios.post('dj_rest_auth/logout');
+      // Reset currentUser to null
+      setCurrentUser(null);
+      // Handle errors
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
+  };
+
+  // (1) Define add post function
+  const addPostIcon = (
+    <NavLink
+      className={styles.IconLink}
+      activeClassName={styles.Active}
+      to="/posts/create"
+    >
+      <i className="far fa-plus-square"></i> Add post
+    </NavLink>
+  );
+
   // logged in user icon
-  const loggedInIcons = <>{currentUser?.username}</>;
+  const loggedInIcons = (
+    <>
+      {/* (3) Remove user name and add feed, liked post etc...  */}
+      {/* {currentUser?.username} */}
+
+      {/* (3.1) Feed */}
+      <NavLink
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+        to="/feed"
+      >
+        <i className="fas fa-stream"></i>Feed
+      </NavLink>
+
+      {/* (3.2) Liked */}
+      <NavLink
+        className={styles.NavLink}
+        activeClassName={styles.Active}
+        to="/liked"
+      >
+        <i className="fas fa-heart"></i>Liked
+      </NavLink>
+
+      {/* (3.3) Signout */}
+      <NavLink className={styles.NavLink} to="/" onClick={handleSignOut}>
+        <i className="fas fa-sign-out-alt"></i>Signout
+      </NavLink>
+
+      {/* (3.4) Profile of the signed in user */}
+      <NavLink
+        className={styles.NavLink}
+        to={`/profiles/${currentUser?.profile_id}`}
+        onClick={() => {}}
+      >
+        {/* (6) Remove image tag and include Avatar compnt */}
+        {/* <img src={currentUser?.profile_image} alt="Profile" /> */}
+        <Avatar src={currentUser?.profile_image} text="Profile" height={40} />
+      </NavLink>
+    </>
+  );
+  // console.log(currentUser?.profile_id);
+
   // icons that logged out user can see
   const loggedOutIcons = (
     <>
@@ -47,6 +120,10 @@ const NavBar = () => {
             <img src={logo} alt="logo" height="45px"></img>
           </Navbar.Brand>
         </NavLink>
+
+        {/* (2) Add post */}
+        {currentUser && addPostIcon}
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto text-left">
@@ -57,7 +134,6 @@ const NavBar = () => {
               to="/"
               exact
             >
-              
               <i className="fas fa-home"></i>Home
             </NavLink>
             {currentUser ? loggedInIcons : loggedOutIcons}
