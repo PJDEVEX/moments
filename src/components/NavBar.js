@@ -10,6 +10,7 @@ import {
 } from "./contexts/CurrentUserContext";
 import Avatar from "./Avatar";
 import axios from "axios";
+import useClickOutsideToggle from "./hooks/useClickOutsideToggle";
 
 const NavBar = () => {
   // Access currentUser
@@ -20,14 +21,21 @@ const NavBar = () => {
   // to auto import useCurrentUser custom hook
   const currentUser = useCurrentUser();
 
-  // (7) Use the hook
+  // Use the hook
   const setCurrentUser = useSetCurrentUser();
 
-  // (8) Define signout function
+  // (8.1) Cut and paste, 1, 4, 6 and 7 in useClickOutsideToggle.js
+  // Export needed the imports to the useClickOutsideToggle.js
+
+  // (8.3) use useClickOutsideToggle in Navbar
+  // destructure the values
+  const { expanded, setExpanded, burgerRef} = useClickOutsideToggle();
+
+  // Define signout function
   const handleSignOut = async () => {
     try {
       // Make a POST request to the logout endpoint
-      await axios.post('dj_rest_auth/logout');
+      await axios.post("dj_rest_auth/logout");
       // Reset currentUser to null
       setCurrentUser(null);
       // Handle errors
@@ -36,7 +44,7 @@ const NavBar = () => {
     }
   };
 
-  // (1) Define add post function
+  // Define add post function
   const addPostIcon = (
     <NavLink
       className={styles.IconLink}
@@ -50,10 +58,10 @@ const NavBar = () => {
   // logged in user icon
   const loggedInIcons = (
     <>
-      {/* (3) Remove user name and add feed, liked post etc...  */}
+      {/* Remove user name and add feed, liked post etc...  */}
       {/* {currentUser?.username} */}
 
-      {/* (3.1) Feed */}
+      {/* Feed */}
       <NavLink
         className={styles.NavLink}
         activeClassName={styles.Active}
@@ -62,7 +70,7 @@ const NavBar = () => {
         <i className="fas fa-stream"></i>Feed
       </NavLink>
 
-      {/* (3.2) Liked */}
+      {/* Liked */}
       <NavLink
         className={styles.NavLink}
         activeClassName={styles.Active}
@@ -71,18 +79,18 @@ const NavBar = () => {
         <i className="fas fa-heart"></i>Liked
       </NavLink>
 
-      {/* (3.3) Signout */}
+      {/* Signout */}
       <NavLink className={styles.NavLink} to="/" onClick={handleSignOut}>
         <i className="fas fa-sign-out-alt"></i>Signout
       </NavLink>
 
-      {/* (3.4) Profile of the signed in user */}
+      {/* Profile of the signed in user */}
       <NavLink
         className={styles.NavLink}
         to={`/profiles/${currentUser?.profile_id}`}
         onClick={() => {}}
       >
-        {/* (6) Remove image tag and include Avatar compnt */}
+        {/* Remove image tag and include Avatar compnt */}
         {/* <img src={currentUser?.profile_image} alt="Profile" /> */}
         <Avatar src={currentUser?.profile_image} text="Profile" height={40} />
       </NavLink>
@@ -112,7 +120,13 @@ const NavBar = () => {
     </>
   );
   return (
-    <Navbar className={styles.NavBar} expand="md" fixed="top">
+    // (2) Setting expanded prop of Navbar
+    <Navbar
+      expanded={expanded}
+      className={styles.NavBar}
+      expand="md"
+      fixed="top"
+    >
       <Container>
         {/* NavLink to the Home page when click logo */}
         <NavLink to="/">
@@ -121,10 +135,16 @@ const NavBar = () => {
           </Navbar.Brand>
         </NavLink>
 
-        {/* (2) Add post */}
+        {/* Add post */}
         {currentUser && addPostIcon}
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          // (5) Passing ref prop to Navbar.Toggle
+          ref={burgerRef}
+          // (3) Adding onClick attribute
+          onClick={() => setExpanded(!expanded)}
+          aria-controls="basic-navbar-nav"
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto text-left">
             {/* Home NavLink */}
