@@ -7,6 +7,7 @@ import Container from "react-bootstrap/Container";
 import appStyles from "../../App.module.css";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
+import Post from "./Post";
 
 function PostPage() {
 // Use useParams to extract post_id
@@ -35,7 +36,8 @@ useEffect(() => {
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
         <p>Popular profiles for mobile</p>
-        <p>Post component</p>
+        {/* (4)Passing props from PostPage.js */}
+        <Post {...post.results[0]} setPosts={setPost} postPage/>
         <Container className={appStyles.Content}>
           Comments
         </Container>
