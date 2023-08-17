@@ -22,10 +22,10 @@ export const CurrentUserProvider = ({ children }) => {
   // Function to handle API call on mount
   const handleMount = async () => {
     try {
-      const { data } = await axiosRes.get("/dj-rest-auth/user/");
+      const { data } = await axiosRes.get("dj-rest-auth/user/");
       setCurrentUser(data);
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   };
 
@@ -36,12 +36,12 @@ export const CurrentUserProvider = ({ children }) => {
 
   // Attached request interceptor to axiosReq instance
   useMemo(() => {
-    const requestInterceptor = axiosReq.interceptors.request.use(
+    axiosReq.interceptors.request.use(
       async (config) => {
         try {
           // Refresh access token before sending the request
-          await axios.post("dj-rest-auth/token/refresh/");
-        } catch (error) {
+          await axios.post("/dj-rest-auth/token/refresh/");
+        } catch (err) {
           // Redirect to SignIn page and reset currentUser
           setCurrentUser((prevCurrentUser) => {
             if (prevCurrentUser) {
@@ -51,13 +51,13 @@ export const CurrentUserProvider = ({ children }) => {
           });
           return config;
         }
+        return config;
       },
-      (error) => Promise.reject(error)
+      (err) => {
+        return Promise.reject(err);
+      }
     );
-    return () => {
-      axiosReq.interceptors.request.eject(requestInterceptor);
-    };
-  }, [history]);
+  });
 
   // Attach response interceptor to axiosRes instance
   useMemo(() => {
@@ -67,7 +67,7 @@ export const CurrentUserProvider = ({ children }) => {
         if (err.response?.status === 401) {
           try {
             // (3) Refresh access token logic
-            await axios.post("dj-rest-auth/token/refresh/");
+            await axios.post("/dj-rest-auth/token/refresh/");
           } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
