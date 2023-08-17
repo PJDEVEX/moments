@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext, useMemo } from "react";
 import axios from "axios";
-import { axiosReq, axiosRes } from "../../api/axiosDefaults";
+import { axiosReq, axiosRes } from "../../api/axiosDefaults.js";
 import { useHistory } from "react-router";
 
 // Create CurrentUserContext and SetCurrentUserContext
@@ -22,10 +22,10 @@ export const CurrentUserProvider = ({ children }) => {
   // Function to handle API call on mount
   const handleMount = async () => {
     try {
-      const { data } = await axios.get("/dj-rest-auth/user/");
+      const { data } = await axiosRes.get("/dj-rest-auth/user/");
       setCurrentUser(data);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -67,7 +67,7 @@ export const CurrentUserProvider = ({ children }) => {
         if (err.response?.status === 401) {
           try {
             // (3) Refresh access token logic
-            await axios.post("dj/rest-auth/token/refresh/");
+            await axios.post("dj-rest-auth/token/refresh/");
           } catch (err) {
             setCurrentUser((prevCurrentUser) => {
               if (prevCurrentUser) {
