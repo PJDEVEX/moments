@@ -24,10 +24,10 @@ const NavBar = () => {
   // Use the hook
   const setCurrentUser = useSetCurrentUser();
 
-  // (8.1) Cut and paste, 1, 4, 6 and 7 in useClickOutsideToggle.js
+  // Cut and paste, 1, 4, 6 and 7 in useClickOutsideToggle.js
   // Export needed the imports to the useClickOutsideToggle.js
 
-  // (8.3) use useClickOutsideToggle in Navbar
+  // (use useClickOutsideToggle in Navbar
   // destructure the values
   const { expanded, setExpanded, burgerRef} = useClickOutsideToggle();
 
@@ -120,7 +120,7 @@ const NavBar = () => {
     </>
   );
   return (
-    // (2) Setting expanded prop of Navbar
+    // Setting expanded prop of Navbar
     <Navbar
       expanded={expanded}
       className={styles.NavBar}
@@ -139,9 +139,9 @@ const NavBar = () => {
         {currentUser && addPostIcon}
 
         <Navbar.Toggle
-          // (5) Passing ref prop to Navbar.Toggle
+          // Passing ref prop to Navbar.Toggle
           ref={burgerRef}
-          // (3) Adding onClick attribute
+          // Adding onClick attribute
           onClick={() => setExpanded(!expanded)}
           aria-controls="basic-navbar-nav"
         />

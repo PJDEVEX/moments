@@ -17,7 +17,7 @@ const useClickOutsideToggle = () => {
     };
   }, [burgerRef]);
 
-  // (8.2) Return the necessary values
+  // Return the necessary values
   return { expanded, setExpanded, burgerRef };
 };
 
