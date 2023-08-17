@@ -18,7 +18,7 @@ import { axiosReq } from "../../api/axiosDefaults";
 import { Alert } from "react-bootstrap";
 
 function PostCreateForm() {
-  // (6) Create and initialize errors values
+  // Create and initialize errors values
   const [errors, setErrors] = useState({});
 
   // Create and initialize Post Data values
@@ -31,10 +31,10 @@ function PostCreateForm() {
   // Destructure post data
   const { title, content, image } = postData;
 
-  // (1) Create ref to form.file compt using useRef
+  // Create ref to form.file compt using useRef
   const imageInput = useRef(null);
 
-  // (3) Define history variable 
+  // Define history variable 
   const history = useHistory(); 
 
   // handleChange function
@@ -57,7 +57,7 @@ function PostCreateForm() {
     }
   };
 
-// (4) handleSubmit function
+// handleSubmit function
 const handleSubmit = async (event) => {
   event.preventDefault();
 
@@ -71,7 +71,7 @@ const handleSubmit = async (event) => {
     const { data } = await axiosReq.post('/posts/', formData);
     history.push(`/posts/${data.id}`);
   } catch (error) {
-    // (7 validate error) 
+    // validate error 
     console.error(error);
     if (error.response?.status !== 401) {
       setErrors(error.response.data.errors);
@@ -92,7 +92,7 @@ const handleSubmit = async (event) => {
           onChange={handleChange}
         />
       </Form.Group>
-      {/* (8.1) Add alert compnt */}
+      {/* Add alert compnt */}
       {errors.title?.map((message, idx) => (
               <Alert variant="warning" key={idx}>
                 {message}
@@ -110,7 +110,7 @@ const handleSubmit = async (event) => {
           onChange={handleChange}
         />
       </Form.Group>
-      {/* (8.2) Add alert compnt */}
+      {/* Add alert compnt */}
       {errors.content?.map((message, idx) => (
               <Alert variant="warning" key={idx}>
                 {message}
@@ -119,7 +119,7 @@ const handleSubmit = async (event) => {
 
       <Button
         className={`${btnStyles.Button} ${btnStyles.Blue}`}
-        // (5) Redirecting back to the lastpage user was on...
+        // Redirecting back to the lastpage user was on...
         onClick={() => history.goBack()}
       >
         cancel
@@ -163,7 +163,7 @@ const handleSubmit = async (event) => {
                 </Form.Label>
               )}
 
-              {/* (2)Add ref props */}
+              {/* Add ref props */}
               <Form.File
                 id="image-upload"
                 accept="image/*"
@@ -171,7 +171,7 @@ const handleSubmit = async (event) => {
                 ref={imageInput}
               />
             </Form.Group>
-            {/* (8.3) Add alert compnt */}
+            {/* Add alert compnt */}
             {errors.image?.map((message, idx) => (
               <Alert variant="warning" key={idx}>
                 {message}
