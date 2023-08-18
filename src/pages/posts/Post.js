@@ -23,7 +23,7 @@ const Post = (props) => {
     likes_count,
     comments_count,
     postPage,
-    // (3) Add setPost component to destructure
+    // Add setPost component to destructure
     setPosts,
   } = props;
 
@@ -31,7 +31,7 @@ const Post = (props) => {
   const currentUser = useCurrentUser();
   const is_owner = currentUser?.username === owner;
 
-  // (1) handleLike function
+  // handleLike function
   const handleLike = async () => {
     try {
       const { data } = await axiosRes.post("/likes/", { post: id });
@@ -48,7 +48,7 @@ const Post = (props) => {
     }
   };
 
-  // (5) handleUnlike function
+  // handleUnlike function
   const handleUnlike = async () => {
     try {
       await axiosRes.delete(`/likes/${ like_id}/`);
@@ -97,12 +97,12 @@ const Post = (props) => {
               <i className="far fa-heart" />
             </OverlayTrigger>
           ) : like_id ? (
-            // (6) onClick handleUnlike
+            // onClick handleUnlike
             <span onClick={handleUnlike}>
               <i className={`fas fa-heart ${styles.Heart}`} />
             </span>
           ) : currentUser ? (
-            // (4) onClick handleLike
+            // onClick handleLike
             <span onClick={handleLike}>
               <i className={`far fa-heart ${styles.HeartOutline}`} />
             </span>
