@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/Post.module.css"; // (1) import Post.module.css
+import styles from "../../styles/Post.module.css";
 import { useCurrentUser } from "../../components/contexts/CurrentUserContext";
 import { Card, OverlayTrigger, Media, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import Avatar from "../../components/Avatar";
 
 
 const Post = (props) => {
-  // (5)	Destructuring props
+  // Destructuring props
   const {
     id,
     owner,
@@ -30,6 +30,7 @@ const Post = (props) => {
   const is_owner = currentUser?.username === owner;
 
   return (
+    // Bootstrap components to structure
     <Card className={styles.Post}>
       <Card.Body>
         <Media className="align-items-center justify-content-between">
@@ -43,12 +44,14 @@ const Post = (props) => {
           </div>
         </Media>
       </Card.Body>
+      {/* Displaying post image and linking to the post */}
       <Link to={`/posts/${id}`}>
         <Card.Img src={image} alt={title} />
       </Link>
       <Card.Body>
         {title && <Card.Title className="text-center">{title}</Card.Title>}
         {content && <Card.Text>{content}</Card.Text>}
+        {/* Displaying like and comments icons with conditions */}
         <div className={styles.PostBar}>
           {is_owner ? (
             <OverlayTrigger
