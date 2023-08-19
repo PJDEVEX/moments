@@ -7,18 +7,18 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 
-import Upload from "../../assets/upload.png";
+
 
 import styles from "../../styles/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
-import Asset from "../../components/Asset";
+
 import { useHistory } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import { Alert } from "react-bootstrap";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-// (1) Modify function name
+// Modify function name
 function PostEditForm() {
   // Create and initialize errors values
   const [errors, setErrors] = useState({});
@@ -39,11 +39,11 @@ function PostEditForm() {
   // Define history variable
   const history = useHistory();
 
-  //   (3) Destructure id
+  //   Destructure id
   const { id } = useParams();
 
   useEffect(() => {
-    // (4) Fetch post details on component mount
+    // Fetch post details on component mount
     const handleMount = async () => {
       try {
         // Fetch post data using the provided ID
@@ -58,7 +58,7 @@ function PostEditForm() {
       }
     };
 
-    // (5) Call the handleMount function when the component mounts
+    // Call the handleMount function when the component mounts
     handleMount();
   }, [id, history]);
 
@@ -88,14 +88,14 @@ function PostEditForm() {
     formData.append("title", title);
     formData.append("content", content);
 
-    // (6)
+    // Append the selected image file to the form if exists
     if (imageInput?.current?.files[0]) {
       formData.append("image", imageInput.current.files[0]);
     }
     try {
-      // (7) change from post to put and add post id for editing
+      // change from post to put and add post id for editing
       await axiosReq.put(`/posts/${id}/`, formData);
-      // (8) Redirect to the edited post
+      // Redirect to the edited post
       history.push(`/posts/${id}`);
     } catch (err) {
       console.log(err);
@@ -150,7 +150,7 @@ function PostEditForm() {
       >
         cancel
       </Button>
-      {/* (9) Update the button */}
+      {/* Update the button */}
       <Button className={`${btnStyles.Button} ${btnStyles.Blue}`} type="submit">
         Save
       </Button>
@@ -166,8 +166,7 @@ function PostEditForm() {
           >
             <Form.Group className="text-center">
               {/* Show the preview of the image if one is chosen */}
-              {image ? (
-                <>
+ 
                   <figure>
                     <Image className={appStyles.Image} src={image} rounded />
                   </figure>
@@ -179,19 +178,7 @@ function PostEditForm() {
                       Change the image
                     </Form.Label>
                   </div>
-                </>
-              ) : (
-                <Form.Label
-                  className="d-flex justify-content-center"
-                  htmlFor="image-upload"
-                >
-                  {/* ASSET */}
-                  <Asset
-                    src={Upload}
-                    message="Click or tap to upload an image"
-                  />
-                </Form.Label>
-              )}
+ 
 
               {/* Add ref props */}
               <Form.File
@@ -218,5 +205,5 @@ function PostEditForm() {
   );
 }
 
-// (2) Modify export
+// (Modify export
 export default PostEditForm;
