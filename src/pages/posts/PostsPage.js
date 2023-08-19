@@ -21,10 +21,10 @@ function PostsPage({ message, filter = "" }) {
   const [hasLoaded, setHasLoaded] = useState(false);
   // Access the current pathname from the location object
   const { pathname } = useLocation();
-  //   (3)Initialize state for search query
+  //   Initialize state for search query
   const [query, setQuery] = useState("");
 
-  // Fetching Posts Based on Filter
+  // (Fetching Posts Based on Filter
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -43,8 +43,7 @@ function PostsPage({ message, filter = "" }) {
     // Fetch posts using the 'fetchPosts' function
     fetchPosts();
 
-    // useEffect hook with dependencies 'filter' and 'pathname',
-    // (4) add query too
+    // useEffect hook with dependencies 'filter' and 'pathname', query,
     // this will trigger the effect whenever filter or pathname changes
   }, [filter, query, pathname]);
 
@@ -52,14 +51,14 @@ function PostsPage({ message, filter = "" }) {
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
         <p>Popular profiles mobile</p>
-        {/* (1) Add search bar */}
+        {/* Add search bar */}
         <i className={`fas fa-search ${styles.SearchIcon}`} />
         {/* Create a form for the search bar */}
         <Form
           className={styles.SearchBar}
           onSubmit={(event) => event.preventDefault()}
         >
-          {/* (2) Input field for searching */}
+          {/* Input field for searching */}
           <Form.Control
             type="text"
             className="mr-sm-2"
