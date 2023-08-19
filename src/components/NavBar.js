@@ -131,7 +131,7 @@ const NavBar = () => {
         {/* NavLink to the Home page when click logo */}
         <NavLink to="/">
           <Navbar.Brand>
-            <img src={logo} alt="logo" height="45px"></img>
+            <img src={logo} alt="logo" height="45"></img>
           </Navbar.Brand>
         </NavLink>
 
