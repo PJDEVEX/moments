@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import Image from 'react-bootstrap/Image';
+import Image from "react-bootstrap/Image";
 
 import Upload from "../../assets/upload.png";
 
@@ -34,8 +34,8 @@ function PostCreateForm() {
   // Create ref to form.file compt using useRef
   const imageInput = useRef(null);
 
-  // Define history variable 
-  const history = useHistory(); 
+  // Define history variable
+  const history = useHistory();
 
   // handleChange function
   const handleChange = (event) => {
@@ -47,8 +47,7 @@ function PostCreateForm() {
 
   // handleChangeImage function
   const handleChangeImage = (event) => {
-    const selectedFile = event.target.files.length;
-    if (selectedFile) {
+    if (event.target.files.length) {
       URL.revokeObjectURL(image);
       setPostData({
         ...postData,
@@ -57,27 +56,23 @@ function PostCreateForm() {
     }
   };
 
-// handleSubmit function
-const handleSubmit = async (event) => {
-  event.preventDefault();
-
-  const formData = new FormData();
-
-  formData.append('title', title);
-  formData.append('content', content);
-  formData.append('image', imageInput.current.files[0]);
-
-  try {
-    const { data } = await axiosReq.post('/posts/', formData);
-    history.push(`/posts/${data.id}`);
-  } catch (error) {
-    // validate error 
-    console.error(error);
-    if (error.response?.status !== 401) {
-      setErrors(error.response.data.errors);
+  // handleSubmit function
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("image", imageInput.current.files[0]);
+    try {
+      const { data } = await axiosReq.post("/posts/", formData);
+      history.push(`/posts/${data.id}`);
+    } catch (err) {
+      console.log(err);
+      if (err.response?.status !== 401) {
+        setErrors(err.response?.data);
+      }
     }
-  }
-};
+  };
 
   const textFields = (
     <div className="text-center">
@@ -93,11 +88,11 @@ const handleSubmit = async (event) => {
         />
       </Form.Group>
       {/* Add alert compnt */}
-      {errors.title?.map((message, idx) => (
-              <Alert variant="warning" key={idx}>
-                {message}
-              </Alert>
-            ))}
+      {errors?.title?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
 
       <Form.Group controlId="postContent">
         <Form.Label>Content</Form.Label>
@@ -111,11 +106,12 @@ const handleSubmit = async (event) => {
         />
       </Form.Group>
       {/* Add alert compnt */}
-      {errors.content?.map((message, idx) => (
-              <Alert variant="warning" key={idx}>
-                {message}
-              </Alert>
-            ))}
+      {errors?.content?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+      ))}
+
 
       <Button
         className={`${btnStyles.Button} ${btnStyles.Blue}`}
@@ -159,7 +155,10 @@ const handleSubmit = async (event) => {
                   htmlFor="image-upload"
                 >
                   {/* ASSET */}
-                  <Asset src={Upload} message={"Click or tap to upload"} />
+                  <Asset
+                    src={Upload}
+                    message="Click or tap to upload an image"
+                  />
                 </Form.Label>
               )}
 
@@ -172,7 +171,7 @@ const handleSubmit = async (event) => {
               />
             </Form.Group>
             {/* Add alert compnt */}
-            {errors.image?.map((message, idx) => (
+            {errors?.image?.map((message, idx) => (
               <Alert variant="warning" key={idx}>
                 {message}
               </Alert>
@@ -189,4 +188,3 @@ const handleSubmit = async (event) => {
 }
 
 export default PostCreateForm;
-
