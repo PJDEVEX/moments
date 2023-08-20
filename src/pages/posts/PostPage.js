@@ -69,7 +69,7 @@ function PostPage() {
           {comments.results.length ? (
             comments.results.map((comment) => (
               <Comment key={comment.id} {...comment} 
-              // Passing setPost and setComments as props
+              // Passing setPost and setComments as props 
               setPost = {setPost}
               setComments = {setComments}
               />
