@@ -4,6 +4,7 @@ import { axiosReq } from "../../api/axiosDefaults"; // Import the axios request 
 import appStyles from "../../App.module.css"; // Import module for styles
 import Asset from "../../components/Asset"; // Import the Asset component for displaying spinners
 import { useCurrentUser } from "../../contexts/CurrentUserContext"; // Import the user context for authentication
+import Profile from "../posts/Profile";
 
 // (2) pass mobile param
 const PopularProfiles = ({ mobile }) => {
@@ -43,6 +44,8 @@ const PopularProfiles = ({ mobile }) => {
   }, [currentUser]); // Trigger the effect whenever the currentUser changes
 
   return (
+    // Conditionally rendering popProfiles and add styling accordingly
+    // Pass profile component
     <Container className={`${appStyles.Content} ${
       mobile && "d-lg-none text-center mb-3"
     }`}
@@ -53,12 +56,12 @@ const PopularProfiles = ({ mobile }) => {
           {mobile ? (
             <div className="d-flex justify-content-around">
               {popularProfiles.results.slice(0, 4).map((profile) => (
-                <p key={profile.id}>{profile.owner}</p>
+                <Profile key={profile.id} profile={profile} mobile/>
               ))}
             </div>
           ) : (
             popularProfiles.results.map((profile) => (
-              <p key={profile.id}>{profile.owner}</p>
+              <Profile key={profile.id} profile={profile} />
             ))
           )}
         </>
