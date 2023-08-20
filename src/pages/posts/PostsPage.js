@@ -99,7 +99,7 @@ function PostsPage({ message, filter = "" }) {
         )}
       </Col>
       <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
-        {/* (3) append most pop profiles */}
+        {/* append most pop profiles */}
         <PopularProfiles />
       </Col>
     </Row>
