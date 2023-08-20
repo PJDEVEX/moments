@@ -5,7 +5,8 @@ import appStyles from "../../App.module.css"; // Import module for styles
 import Asset from "../../components/Asset"; // Import the Asset component for displaying spinners
 import { useCurrentUser } from "../../contexts/CurrentUserContext"; // Import the user context for authentication
 
-const PopularProfiles = () => {
+// (2) pass mobile param
+const PopularProfiles = ({ mobile }) => {
   // Define and initiate the state values for profile data
   const [profileData, setProfileData] = useState({
     pageProfile: { results: [] }, // Placeholder for page profile data
@@ -23,7 +24,9 @@ const PopularProfiles = () => {
     const handleMount = async () => {
       try {
         // Make an API request to fetch popular profiles data
-        const { data } = await axiosReq.get("/profiles/?ordering=-followers_count");
+        const { data } = await axiosReq.get(
+          "/profiles/?ordering=-followers_count"
+        );
 
         // Update the state with the fetched data
         setProfileData((prevState) => ({
@@ -40,17 +43,27 @@ const PopularProfiles = () => {
   }, [currentUser]); // Trigger the effect whenever the currentUser changes
 
   return (
-    // Render the component content
-    <Container className={appStyles.Content}>
-      {popularProfiles.results.length ? ( // Check if there are popular profiles to display
+    <Container className={`${appStyles.Content} ${
+      mobile && "d-lg-none text-center mb-3"
+    }`}
+  >
+      {popularProfiles.results.length ? (
         <>
           <p>Most followed profiles.</p>
-          {popularProfiles.results.map((profile) => (
-            <p key={profile.id}>{profile.owner}</p>
-          ))}
+          {mobile ? (
+            <div className="d-flex justify-content-around">
+              {popularProfiles.results.slice(0, 4).map((profile) => (
+                <p key={profile.id}>{profile.owner}</p>
+              ))}
+            </div>
+          ) : (
+            popularProfiles.results.map((profile) => (
+              <p key={profile.id}>{profile.owner}</p>
+            ))
+          )}
         </>
       ) : (
-        <Asset spinner /> // Display a spinner if no data is available
+        <Asset spinner={true} /> 
       )}
     </Container>
   );

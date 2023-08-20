@@ -53,7 +53,8 @@ function PostsPage({ message, filter = "" }) {
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <p>Popular profiles mobile</p>
+        {/* (1) popProfile for mobile */}
+        <PopularProfiles mobile />
         {/* Add search bar */}
         <i className={`fas fa-search ${styles.SearchIcon}`} />
         {/* Create a form for the search bar */}
