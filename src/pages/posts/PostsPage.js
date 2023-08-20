@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
+import PopularProfiles from "../profiles/PopularProfiles";
 
 // Destructure the message and filter  and initiate to empty string
 function PostsPage({ message, filter = "" }) {
@@ -75,7 +76,7 @@ function PostsPage({ message, filter = "" }) {
         {hasLoaded ? (
           <>
             {posts.results.length ? (
-              // (1) Importing InfiniteScroll and Using it
+              // Importing InfiniteScroll and Using it
               <InfiniteScroll
                 children={posts.results.map((post) => (
                   <Post key={post.id} {...post} setPosts={setPosts} />
@@ -98,7 +99,8 @@ function PostsPage({ message, filter = "" }) {
         )}
       </Col>
       <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
-        <p>Popular profiles for desktop</p>
+        {/* (3) append most pop profiles */}
+        <PopularProfiles />
       </Col>
     </Row>
   );
