@@ -74,7 +74,7 @@ function PostPage() {
               dataLength={comments.results.length}
               next={() => fetchMoreData(comments, setComments)}
               hasMore={!!comments.next}
-              loader={}
+              loader={<Asset spinner />}
             >
               {comments.results.map((comment) => (
                 <Comment
