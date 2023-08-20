@@ -44,7 +44,7 @@ const NavBar = () => {
   // Define add post function
   const addPostIcon = (
     <NavLink
-      className={styles.IconLink}
+      className={styles.NavLink}
       activeClassName={styles.Active}
       to="/posts/create"
     >
@@ -78,7 +78,7 @@ const NavBar = () => {
 
       {/* Signout */}
       <NavLink className={styles.NavLink} to="/" onClick={handleSignOut}>
-        <i className="fas fa-sign-out-alt"></i>Signout
+        <i className="fas fa-sign-out-alt"></i>Sign out
       </NavLink>
 
       {/* Profile of the signed in user */}
