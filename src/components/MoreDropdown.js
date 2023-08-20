@@ -16,26 +16,30 @@ const ThreeDots = React.forwardRef(({ onClick }, ref) => (
   />
 ));
 // destructure handleEdit prop
-export const MoreDropdown = ({handleEdit, handleDelete}) => {
+export const MoreDropdown = ({ handleEdit, handleDelete }) => {
   return (
     <Dropdown className="ml-auto" drop="left">
-      <Dropdown.Toggle as={ThreeDots}/>
+      <Dropdown.Toggle as={ThreeDots} />
 
-
-      <Dropdown.Menu className="text-center" popperConfig={{ strategy: "fixed" }}>
+      <Dropdown.Menu
+        className="text-center"
+        popperConfig={{ strategy: "fixed" }}
+      >
         {/* pass handleEdit as a prop */}
-        <Dropdown.Item 
-        className={styles.DropdownItem}
-        onClick={handleEdit}
-        aria-label="edit"
-        ><i className="fas fa-edit" />
+        <Dropdown.Item
+          className={styles.DropdownItem}
+          onClick={handleEdit}
+          aria-label="edit"
+        >
+          <i className="fas fa-edit" />
         </Dropdown.Item>
         {/* pass handleDelete as a prop */}
         <Dropdown.Item
-        className={styles.DropdownItem}
-        onClick={handleDelete}
-        aria-label="delete"
-        ><i className="fas fa-trash-alt" />
+          className={styles.DropdownItem}
+          onClick={handleDelete}
+          aria-label="delete"
+        >
+          <i className="fas fa-trash-alt" />
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
