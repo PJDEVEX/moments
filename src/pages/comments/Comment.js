@@ -7,6 +7,7 @@ import { useCurrentUser } from "../../components/contexts/CurrentUserContext";
 import { MoreDropdown } from "../../components/MoreDropdown";
 import { axiosRes } from "../../api/axiosDefaults";
 import CommentEditForm from "./CommentEditForm";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Comment = (props) => {
   const {
