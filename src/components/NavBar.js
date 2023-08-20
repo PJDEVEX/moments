@@ -4,13 +4,10 @@ import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
 
-import {
-  useCurrentUser,
-  useSetCurrentUser,
-} from "./contexts/CurrentUserContext";
+import { useCurrentUser, useSetCurrentUser } from "../contexts/CurrentUserContext";
 import Avatar from "./Avatar";
 import axios from "axios";
-import useClickOutsideToggle from "./hooks/useClickOutsideToggle";
+import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
 
 const NavBar = () => {
   // Access currentUser

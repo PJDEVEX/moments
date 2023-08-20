@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../../styles/Post.module.css";
-import { useCurrentUser } from "../../components/contexts/CurrentUserContext";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, OverlayTrigger, Media, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
