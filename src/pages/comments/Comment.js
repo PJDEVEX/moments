@@ -35,11 +35,12 @@ const Comment = (props) => {
           },
         ],
       }));
-    } catch (err) {
+    
       setComments((prevComments) => ({
         ...prevComments,
         results: prevComments.results.filter((comment) => comment.id !== id),
       }));
+    } catch (err) {
       console.error("Error deleting comment:", err);
     }
   };
