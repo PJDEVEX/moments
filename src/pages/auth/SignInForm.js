@@ -20,12 +20,11 @@ import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 function SignInForm() {
   // Access currentUser and setCurrentUser
   // const setCurrentUser = useContext(SetCurrentUserContext);
-  
+
   // Access useSetCurrentUser custom hook
   // Modify the const setCurrentUser = useContext(SetCurrentUserContext);
   // to auto import useSetCurrentUser custom hook
   const setCurrentUser = useSetCurrentUser();
-
 
   // Initialize signInData
   const [signInData, setSignInData] = useState({
@@ -36,19 +35,11 @@ function SignInForm() {
   // Destructure signInData
   const { username, password } = signInData;
 
-  // useHistory to redirect
-  const history = useHistory();
-
   // error handling with useState for errors
   const [errors, setErrors] = useState({});
 
-  // handleChange function
-  const handleChange = (event) => {
-    setSignInData({
-      ...signInData,
-      [event.target.name]: event.target.value,
-    });
-  };
+  // useHistory to redirect
+  const history = useHistory();
 
   // handleSubmit async function
   const handleSubmit = async (event) => {
@@ -61,8 +52,16 @@ function SignInForm() {
       // Redirect to "/" homepage on successful registration
       history.push("/");
     } catch (err) {
-      setErrors(err.response?.data || {});
+      setErrors(err.response?.data);
     }
+  };
+
+  // handleChange function
+  const handleChange = (event) => {
+    setSignInData({
+      ...signInData,
+      [event.target.name]: event.target.value,
+    });
   };
 
   return (
@@ -75,10 +74,10 @@ function SignInForm() {
 
           <Form onSubmit={handleSubmit}>
             <Form.Group className={styles.Input} controlId="username">
-              <Form.Label className="d-none">Enter Username</Form.Label>
+              <Form.Label className="d-none">Username</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Username"
+                placeholder="Username"
                 name="username"
                 value={username}
                 onChange={handleChange}
@@ -109,14 +108,14 @@ function SignInForm() {
               className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
               type="submit"
             >
-              Signin
+              Sign in
             </Button>
+            {errors.non_field_errors?.map((message, idx) => (
+              <Alert variant="warning" key={idx}>
+                {message}
+              </Alert>
+            ))}
           </Form>
-          {errors.non_field_errors?.map((message, idx) => (
-            <Alert variant="warning" key={idx}>
-              {message}
-            </Alert>
-          ))}
         </Container>
         <Container className={`mt-3 ${appStyles.Content}`}>
           <Link className={styles.Link} to="/signup">
