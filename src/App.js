@@ -10,6 +10,7 @@ import PostPage from "./pages/posts/PostPage";
 import PostsPage from "./pages/posts/PostsPage";
 import { useCurrentUser } from "./contexts/CurrentUserContext";
 import PostEditForm from "./pages/posts/PostEditForm";
+import ProfilePage from "./pages/profiles/ProfilePage";
 
 function App() {
   // Using useCurrentUser to Get User Details
@@ -56,8 +57,9 @@ function App() {
           <Route path="/signup" exact render={() => <SignUpForm />} />
           <Route path="/posts/create" exact render={() => <PostCreateForm />} />
           <Route path="/posts/:id" exact render={() => <PostPage />} />
-          {/* (3) config edit route */}
           <Route path="/posts/:id/edit" exact render={() => <PostEditForm />} />
+          {/* (3) config profilepage route */}
+          <Route path="/profiles/:id" exact render={() => <ProfilePage />} />
           {/* Route for page not found */}
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
