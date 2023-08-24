@@ -19,6 +19,10 @@ import {
   useSetProfileData,
 } from "../../contexts/ProfileDataContext";
 import { Button, Image } from "react-bootstrap";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { fetchMoreData } from "../../utils/utils";
+import NoResults from "../../assets/no-results.png";
+import Post from "../posts/Post";
 
 function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -28,20 +32,33 @@ function ProfilePage() {
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
+  // (1) Define and set initial values
+  const [profilePosts, setProfilePosts] = useState({ results: [] });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [{ data: pageProfile }] = await Promise.all([
-          axiosReq.get(`/profiles/${id}/`),
-        ]);
+        // (3) Destructure data prop
+        const [{ data: pageProfile }, { data: profilePosts }] =
+          await Promise.all([
+            axiosReq.get(`/profiles/${id}/`),
+            // (2) API request to fetch profilePosts
+            axiosReq.get(`/posts/?owner__profile=${id}`),
+          ]);
+        // Calling functions
         setProfileData((prevState) => ({
           ...prevState,
           pageProfile: { results: [pageProfile] },
         }));
+        // // (4) calling setProfilePosts function
+        setProfilePosts((prevState) => ({
+          ...prevState,
+          profilePosts: { results: [profilePosts] },
+        }));
+        setProfilePosts(profilePosts);
         setHasLoaded(true);
       } catch (err) {
-        console.log("Error in fetchinh user profile avatr: ", err);
+        console.log("Error in fetching user profile avatr: ", err);
       }
     };
     fetchData();
@@ -115,6 +132,25 @@ function ProfilePage() {
             <>
               {mainProfile}
               {mainProfilePosts}
+              <hr />
+              <p className="text-center">{profile?.owner}'s posts</p>
+              {profilePosts.results.length ? (
+                <InfiniteScroll
+                  children={profilePosts.results.map((post) => (
+                    <Post key={post.id} {...post} setPosts={setProfilePosts} />
+                  ))}
+                  dataLength={profilePosts.results.length}
+                  loader= {<Asset spinner />}
+                  hasMore={!!profilePosts.next}
+                  next={() => fetchMoreData (profilePosts, setProfilePosts)}
+                  
+                />
+              ) : (
+                <Asset
+                src={NoResults} 
+                message={`No results found, ${profile?.owner} hasn't posted yet.`}/>
+              )}
+              <hr />
             </>
           ) : (
             <Asset spinner />
