@@ -16,6 +16,7 @@ import appStyles from "../../App.module.css";
 import axios from "axios";
 
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
+import { useRedirect } from "../../hooks/useRedirect";
 
 function SignInForm() {
   // Access currentUser and setCurrentUser
@@ -25,6 +26,8 @@ function SignInForm() {
   // Modify the const setCurrentUser = useContext(SetCurrentUserContext);
   // to auto import useSetCurrentUser custom hook
   const setCurrentUser = useSetCurrentUser();
+  // (2) calling useRedirect string value
+  useRedirect('loggedIn')
 
   // Initialize signInData
   const [signInData, setSignInData] = useState({
@@ -50,7 +53,9 @@ function SignInForm() {
       // Update currentUser in SignInForm.js after successful sign
       setCurrentUser(data.user);
       // Redirect to "/" homepage on successful registration
-      history.push("/");
+      // history.push("/");
+      // (3) Redirect user to homepage on successful sign in
+      history.goBack();
     } catch (err) {
       setErrors(err.response?.data);
     }
