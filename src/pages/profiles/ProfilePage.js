@@ -118,8 +118,30 @@ function ProfilePage() {
   const mainProfilePosts = (
     <>
       <hr />
-      <p className="text-center">Profile owner's posts</p>
+      {/* (6) Update owner name */}
+      <p className="text-center">{profile?.owner}'s posts</p>
       <hr />
+      {/* (5.1) Add ternary condition to check profilePosts not empty */}
+      {/* (5.2)If not, add infinite scrole */}
+      {/* (5.3) Add props to infinite scroll */}
+      {profilePosts.results.length ? (
+        <InfiniteScroll
+          children={profilePosts.results.map((post) => (
+            <Post key={post.id} {...post} setPosts={setProfilePosts} />
+          ))}
+          dataLength={profilePosts.results.length}
+          loader={<Asset spinner />}
+          hasMore={!!profilePosts.next}
+          next={() => fetchMoreData(profilePosts, setProfilePosts)}
+        />
+      ) : (
+        // (5.4) If profilePosts empty, add NoResult image, and
+        // Pass a message
+        <Asset
+          src={NoResults}
+          message={`No results found, ${profile?.owner} hasn't posted yet.`}
+        />
+      )}
     </>
   );
 
@@ -132,25 +154,6 @@ function ProfilePage() {
             <>
               {mainProfile}
               {mainProfilePosts}
-              <hr />
-              <p className="text-center">{profile?.owner}'s posts</p>
-              {profilePosts.results.length ? (
-                <InfiniteScroll
-                  children={profilePosts.results.map((post) => (
-                    <Post key={post.id} {...post} setPosts={setProfilePosts} />
-                  ))}
-                  dataLength={profilePosts.results.length}
-                  loader= {<Asset spinner />}
-                  hasMore={!!profilePosts.next}
-                  next={() => fetchMoreData (profilePosts, setProfilePosts)}
-                  
-                />
-              ) : (
-                <Asset
-                src={NoResults} 
-                message={`No results found, ${profile?.owner} hasn't posted yet.`}/>
-              )}
-              <hr />
             </>
           ) : (
             <Asset spinner />
