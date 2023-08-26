@@ -27,10 +27,11 @@ import Post from "../posts/Post";
 function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const currentUser = useCurrentUser();
+  // Destructuring
   const { id } = useParams();
-  // (3) Destructure handleFollow
   const { setProfileData, handleFollow } = useSetProfileData();
   const { pageProfile } = useProfileData();
+  
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
   // Define and set initial values
@@ -105,7 +106,7 @@ function ProfilePage() {
             ) : (
               <Button
                 className={`${btnStyles.Button} ${btnStyles.Black}`}
-                // (4) Call 'handleFollow' function when 'follow' button is clicked
+                // Call 'handleFollow' function when 'follow' button is clicked
                 onClick={() => handleFollow(profile)}
               >
                 follow

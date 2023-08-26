@@ -23,25 +23,26 @@ export const ProfileDataProvider = ({ children }) => {
   // Get the current authenticated user from the context
   const currentUser = useCurrentUser();
 
-  // (1.1) Function to handle following a profile & create try catch
+  // handleFollow Function
   const handleFollow = async (clickedProfile) => {
     try {
-      // (1.2) Send a POST request to the '/followers/' endpoint with the ID of the clicked profile
+      // Send a POST request to the '/followers/' endpoint with,
+      // the ID of the clicked profile
       const { data } = await axiosRes.post("/followers/", {
         followed: clickedProfile.id,
       });
-      // (7.1) Add a call back funtion for updating following and followed count
+      // Add a call back funtion for updating following and followed count
       setProfileData((prevState) => ({
         ...prevState,
-        // (7.3) Add same ternary condtion to pageProfile too
-        // (9.1) use helper function while passing 3 props, profile, 
+        // Add same ternary condtion to pageProfile too
+        // use helper function while passing 3 props, profile, 
         // clickedProfile, data.id)
         pageProfile: {
           results: prevState.pageProfile.results.map((profile) =>
             followHelper(profile, clickedProfile, data.id)
           ),
         },
-        // (7.2) Add ternary to popularProfile
+        // Add ternary to popularProfile
         // (9.2) use helper function)
         popularProfiles: {
           ...prevState.popularProfiles,
@@ -50,9 +51,9 @@ export const ProfileDataProvider = ({ children }) => {
           ),
         },
       }));
-      // (1.3) Handle successful follow action
+      // Handle successful follow action
     } catch (err) {
-      // (1.4) Handle errors that occur during the follow action
+      // Handle errors that occur during the follow action
       console.log("Error occurred while trying to follow:", err);
     }
   };
@@ -83,7 +84,7 @@ export const ProfileDataProvider = ({ children }) => {
   // Provide the profile data and setter function through context
   return (
     <ProfileDataContext.Provider value={profileData}>
-      {/* (2) Provide the 'handleFollow' functions too to child components*/}
+      {/* Provide functions to child components*/}
       <SetProfileDataContext.Provider value={{ setProfileData, handleFollow }}>
         {children}
       </SetProfileDataContext.Provider>

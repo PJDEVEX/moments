@@ -20,7 +20,7 @@ const Profile = (props) => {
   // Check if the current user is the owner of this profile
   const is_owner = currentUser?.username === owner;
 
-  // (5) Destructure handle follow function
+  // Destructure handle follow function
   const {handleFollow} = useSetProfileData();
 
   return (
@@ -57,7 +57,7 @@ const Profile = (props) => {
             // Display "follow" button if the user is not following the profile
             <Button
               className={`${btnStyles.Button} ${btnStyles.Black}`}
-              // (6) handleFollow' function when 'follow' button is clicked
+              // handleFollow' function when 'follow' button is clicked
               onClick={() => handleFollow(profile)}
             >
               follow

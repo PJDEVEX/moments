@@ -17,7 +17,7 @@ export const fetchMoreData = async (resource, setResource) => {
   }
 };
 
-// (8) followHelper Function
+// followHelper Function
 // This function updates profile data when a user follows a profile or,
 // when the logged-in user's profile interacts with others.
 // It increments followers/following counts and,
