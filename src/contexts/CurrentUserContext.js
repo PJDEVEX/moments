@@ -25,7 +25,7 @@ export const CurrentUserProvider = ({ children }) => {
       const { data } = await axiosRes.get("dj-rest-auth/user/");
       setCurrentUser(data);
     } catch (err) {
-      console.log(err);
+      console.log("Error occurred while fetching user data: ", err);
     }
   };
 
@@ -42,6 +42,7 @@ export const CurrentUserProvider = ({ children }) => {
           // Refresh access token before sending the request
           await axios.post("/dj-rest-auth/token/refresh/");
         } catch (err) {
+          console.log("Error refreshing token:", err);
           // Redirect to SignIn page and reset currentUser
           setCurrentUser((prevCurrentUser) => {
             if (prevCurrentUser) {
@@ -92,4 +93,3 @@ export const CurrentUserProvider = ({ children }) => {
     </CurrentUserContext.Provider>
   );
 };
-
