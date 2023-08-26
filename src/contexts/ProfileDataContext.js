@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useCurrentUser } from "./CurrentUserContext";
 import { axiosReq, axiosRes } from "../api/axiosDefaults"; // Make sure to import axiosReq
-import { followHelper } from "../utils/utils";
+import { followHelper, unfollowHelper } from "../utils/utils";
 
 // Define contexts for profile data and its setter function
 export const ProfileDataContext = createContext();
@@ -31,11 +31,11 @@ export const ProfileDataProvider = ({ children }) => {
       const { data } = await axiosRes.post("/followers/", {
         followed: clickedProfile.id,
       });
-      // Add a call back funtion for updating following and followed count
+      // Add a call back function for updating following and followed count
       setProfileData((prevState) => ({
         ...prevState,
         // Add same ternary condtion to pageProfile too
-        // use helper function while passing 3 props, profile, 
+        // use helper function while passing 3 props, profile,
         // clickedProfile, data.id)
         pageProfile: {
           results: prevState.pageProfile.results.map((profile) =>
@@ -55,6 +55,37 @@ export const ProfileDataProvider = ({ children }) => {
     } catch (err) {
       // Handle errors that occur during the follow action
       console.log("Error occurred while trying to follow:", err);
+    }
+  };
+
+  // (1.1) handleUnfollow function
+  const handleUnfollow = async (clickedProfile) => {
+    try {
+      // (1.2 ) API call to unfollow profile using DELETE
+      await axiosRes.delete(
+        `/followers/${clickedProfile.following_id}/`
+      );
+      // (1.3) Update profile data after successful unfollow action
+      // (1.3.1) Update 'pageProfile' and 'popularProfiles',
+      // by mapping through the results
+      setProfileData((prevState) => ({
+        ...prevState,
+        
+        pageProfile: {
+          results: prevState.pageProfile.results.map((profile) =>
+            unfollowHelper(profile, clickedProfile)
+          ),
+        },
+        popularProfiles: {
+          ...prevState.popularProfiles,
+          results: prevState.popularProfiles.results.map((profile) =>
+            unfollowHelper(profile, clickedProfile)
+          ),
+        },
+      }));
+    } catch (err) {
+      // handleUnfollow error
+      console.log("handleUnfollow error: ", err);
     }
   };
 
@@ -85,7 +116,10 @@ export const ProfileDataProvider = ({ children }) => {
   return (
     <ProfileDataContext.Provider value={profileData}>
       {/* Provide functions to child components*/}
-      <SetProfileDataContext.Provider value={{ setProfileData, handleFollow }}>
+      {/* (1.3.1) provide hadndleUnfollow */}
+      <SetProfileDataContext.Provider
+        value={{ setProfileData, handleFollow, handleUnfollow }}
+      >
         {children}
       </SetProfileDataContext.Provider>
     </ProfileDataContext.Provider>

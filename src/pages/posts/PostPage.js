@@ -16,6 +16,7 @@ import Comment from "../comments/Comment";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
+import PopularProfiles from "../profiles/PopularProfiles";
 
 function PostPage() {
   // Use useParams to extract post_id
@@ -52,7 +53,8 @@ function PostPage() {
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <p>Popular profiles for mobile</p>
+        {/* <p>Popular profiles for mobile</p> */}
+        <PopularProfiles />
         {/* Passing props from PostPage.js */}
         <Post {...post.results[0]} setPosts={setPost} postPage />
         <Container className={appStyles.Content}>
@@ -94,7 +96,8 @@ function PostPage() {
         </Container>
       </Col>
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
-        Popular profiles for desktop
+        {/* Popular profiles for desktop */}
+        <PopularProfiles />
       </Col>
     </Row>
   );

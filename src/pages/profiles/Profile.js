@@ -21,7 +21,8 @@ const Profile = (props) => {
   const is_owner = currentUser?.username === owner;
 
   // Destructure handle follow function
-  const {handleFollow} = useSetProfileData();
+  // (1.3.4) Detructure handleUnfollow function
+  const {handleFollow, handleUnfollow} = useSetProfileData();
 
   return (
     <div
@@ -48,8 +49,8 @@ const Profile = (props) => {
             // Display "unfollow" button if the user is already following the profile
             <Button
               className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-              // ()
-              onClick={() => {}}
+              // (1.3.5) call handleUnfollow func when unfollow btn is clicked
+              onClick={() => handleUnfollow(profile)}
             >
               unfollow
             </Button>

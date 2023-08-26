@@ -28,8 +28,9 @@ function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const currentUser = useCurrentUser();
   // Destructuring
+  // 1.3.3 Destructuring handleUnfollow
   const { id } = useParams();
-  const { setProfileData, handleFollow } = useSetProfileData();
+  const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
   const { pageProfile } = useProfileData();
   
   const [profile] = pageProfile.results;
@@ -99,7 +100,8 @@ function ProfilePage() {
             (profile?.following_id ? (
               <Button
                 className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                onClick={() => {}}
+                // (1.3.4) Call 'hadnleUnfloow function when 'unfollow' btn is clicked 
+                onClick={() => handleUnfollow(profile)}
               >
                 unfollow
               </Button>
