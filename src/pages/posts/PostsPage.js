@@ -44,7 +44,13 @@ function PostsPage({ message, filter = "" }) {
     setHasLoaded(false);
 
     // Fetch posts using the 'fetchPosts' function
-    fetchPosts();
+    const timer = setTimeout(() => {
+      fetchPosts();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
 
     // useEffect hook with dependencies 'filter' and 'pathname', query,
     // this will trigger the effect whenever filter or pathname changes
