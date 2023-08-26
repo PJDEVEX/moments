@@ -32,17 +32,17 @@ function ProfilePage() {
   const { pageProfile } = useProfileData();
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
-  // (1) Define and set initial values
+  // Define and set initial values
   const [profilePosts, setProfilePosts] = useState({ results: [] });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // (3) Destructure data prop
+        // Destructure data prop
         const [{ data: pageProfile }, { data: profilePosts }] =
           await Promise.all([
             axiosReq.get(`/profiles/${id}/`),
-            // (2) API request to fetch profilePosts
+            // API request to fetch profilePosts
             axiosReq.get(`/posts/?owner__profile=${id}`),
           ]);
         // Calling functions
@@ -50,7 +50,7 @@ function ProfilePage() {
           ...prevState,
           pageProfile: { results: [pageProfile] },
         }));
-        // // (4) calling setProfilePosts function
+        // // Calling setProfilePosts function
         setProfilePosts((prevState) => ({
           ...prevState,
           profilePosts: { results: [profilePosts] },
@@ -118,12 +118,12 @@ function ProfilePage() {
   const mainProfilePosts = (
     <>
       <hr />
-      {/* (6) Update owner name */}
+      {/* Update owner name */}
       <p className="text-center">{profile?.owner}'s posts</p>
       <hr />
-      {/* (5.1) Add ternary condition to check profilePosts not empty */}
-      {/* (5.2)If not, add infinite scrole */}
-      {/* (5.3) Add props to infinite scroll */}
+      {/* Add ternary condition to check profilePosts not empty */}
+      {/* If not, add infinite scrole */}
+      {/* Add props to infinite scroll */}
       {profilePosts.results.length ? (
         <InfiniteScroll
           children={profilePosts.results.map((post) => (
@@ -135,7 +135,7 @@ function ProfilePage() {
           next={() => fetchMoreData(profilePosts, setProfilePosts)}
         />
       ) : (
-        // (5.4) If profilePosts empty, add NoResult image, and
+        // If profilePosts empty, add NoResult image, and
         // Pass a message
         <Asset
           src={NoResults}
