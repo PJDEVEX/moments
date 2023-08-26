@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useCurrentUser } from "./CurrentUserContext";
-import { axiosReq } from "../api/axiosDefaults"; // Make sure to import axiosReq
+import { axiosReq, axiosRes } from "../api/axiosDefaults"; // Make sure to import axiosReq
+import { followHelper } from "../utils/utils";
 
 // Define contexts for profile data and its setter function
 export const ProfileDataContext = createContext();
@@ -22,12 +23,48 @@ export const ProfileDataProvider = ({ children }) => {
   // Get the current authenticated user from the context
   const currentUser = useCurrentUser();
 
+  // (1.1) Function to handle following a profile & create try catch
+  const handleFollow = async (clickedProfile) => {
+    try {
+      // (1.2) Send a POST request to the '/followers/' endpoint with the ID of the clicked profile
+      const { data } = await axiosRes.post("/followers/", {
+        followed: clickedProfile.id,
+      });
+      // (7.1) Add a call back funtion for updating following and followed count
+      setProfileData((prevState) => ({
+        ...prevState,
+        // (7.3) Add same ternary condtion to pageProfile too
+        // (9.1) use helper function while passing 3 props, profile, 
+        // clickedProfile, data.id)
+        pageProfile: {
+          results: prevState.pageProfile.results.map((profile) =>
+            followHelper(profile, clickedProfile, data.id)
+          ),
+        },
+        // (7.2) Add ternary to popularProfile
+        // (9.2) use helper function)
+        popularProfiles: {
+          ...prevState.popularProfiles,
+          results: prevState.popularProfiles.results.map((profile) =>
+            followHelper(profile, clickedProfile, data.id)
+          ),
+        },
+      }));
+      // (1.3) Handle successful follow action
+    } catch (err) {
+      // (1.4) Handle errors that occur during the follow action
+      console.log("Error occurred while trying to follow:", err);
+    }
+  };
+
   // Fetch data from the API when the component mounts or currentUser changes
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Make an API request to fetch popular profiles data
-        const { data } = await axiosReq.get("/profiles/?ordering=-followers_count");
+        const { data } = await axiosReq.get(
+          "/profiles/?ordering=-followers_count"
+        );
 
         // Update the state with the fetched data
         setProfileData((prevState) => ({
@@ -46,7 +83,8 @@ export const ProfileDataProvider = ({ children }) => {
   // Provide the profile data and setter function through context
   return (
     <ProfileDataContext.Provider value={profileData}>
-      <SetProfileDataContext.Provider value={setProfileData}>
+      {/* (2) Provide the 'handleFollow' functions too to child components*/}
+      <SetProfileDataContext.Provider value={{ setProfileData, handleFollow }}>
         {children}
       </SetProfileDataContext.Provider>
     </ProfileDataContext.Provider>

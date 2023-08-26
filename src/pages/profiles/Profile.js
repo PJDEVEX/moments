@@ -5,6 +5,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Link } from "react-router-dom/cjs/react-router-dom"; // Import for creating links
 import Avatar from "../../components/Avatar";
 import { Button } from "react-bootstrap";
+import { useSetProfileData } from "../../contexts/ProfileDataContext";
 
 const Profile = (props) => {
   // Destructure the props
@@ -18,6 +19,9 @@ const Profile = (props) => {
 
   // Check if the current user is the owner of this profile
   const is_owner = currentUser?.username === owner;
+
+  // (5) Destructure handle follow function
+  const {handleFollow} = useSetProfileData();
 
   return (
     <div
@@ -44,6 +48,7 @@ const Profile = (props) => {
             // Display "unfollow" button if the user is already following the profile
             <Button
               className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
+              // ()
               onClick={() => {}}
             >
               unfollow
@@ -52,7 +57,8 @@ const Profile = (props) => {
             // Display "follow" button if the user is not following the profile
             <Button
               className={`${btnStyles.Button} ${btnStyles.Black}`}
-              onClick={() => {}}
+              // (6) handleFollow' function when 'follow' button is clicked
+              onClick={() => handleFollow(profile)}
             >
               follow
             </Button>
