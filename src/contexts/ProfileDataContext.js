@@ -43,7 +43,7 @@ export const ProfileDataProvider = ({ children }) => {
           ),
         },
         // Add ternary to popularProfile
-        // (9.2) use helper function)
+        // use helper function)
         popularProfiles: {
           ...prevState.popularProfiles,
           results: prevState.popularProfiles.results.map((profile) =>

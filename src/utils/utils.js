@@ -27,7 +27,7 @@ export const followHelper = (profile, clickedProfile, following_id) => {
     ? // This is the profile id I clicked on,
       // Update its followers count and set its following id
       {
-        ...profile.Profile,
+        ...profile,
         followers_count: profile.followers_count + 1,
         following_id,
       }
