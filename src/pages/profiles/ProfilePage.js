@@ -23,6 +23,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 import Post from "../posts/Post";
+import { ProfileEditDropdown } from "../../components/MoreDropdown";
 
 function ProfilePage() {
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -32,7 +33,7 @@ function ProfilePage() {
   const { id } = useParams();
   const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
   const { pageProfile } = useProfileData();
-  
+
   const [profile] = pageProfile.results;
   const is_owner = currentUser?.username === profile?.owner;
   // Define and set initial values
@@ -69,6 +70,7 @@ function ProfilePage() {
 
   const mainProfile = (
     <>
+      {profile?.is_owner && <ProfileEditDropdown id={profile?.id} />}
       <Row noGutters className="px-3 text-center">
         <Col lg={3} className="text-lg-left">
           <Image
@@ -100,7 +102,7 @@ function ProfilePage() {
             (profile?.following_id ? (
               <Button
                 className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                // (1.3.4) Call 'hadnleUnfloow function when 'unfollow' btn is clicked 
+                // (1.3.4) Call 'hadnleUnfloow function when 'unfollow' btn is clicked
                 onClick={() => handleUnfollow(profile)}
               >
                 unfollow
