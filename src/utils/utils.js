@@ -43,7 +43,7 @@ export const followHelper = (profile, clickedProfile, following_id) => {
       profile;
 };
 
-// (1.4) unfollowHelper
+// unfollowHelper
 export const unfollowHelper = (profile, clickedProfile) => {
   return profile.id === clickedProfile.id
     ? // This is the profile id I clicked on,

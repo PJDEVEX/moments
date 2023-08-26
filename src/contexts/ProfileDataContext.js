@@ -58,15 +58,15 @@ export const ProfileDataProvider = ({ children }) => {
     }
   };
 
-  // (1.1) handleUnfollow function
+  // handleUnfollow function
   const handleUnfollow = async (clickedProfile) => {
     try {
-      // (1.2 ) API call to unfollow profile using DELETE
+      //API call to unfollow profile using DELETE
       await axiosRes.delete(
         `/followers/${clickedProfile.following_id}/`
       );
-      // (1.3) Update profile data after successful unfollow action
-      // (1.3.1) Update 'pageProfile' and 'popularProfiles',
+      // Update profile data after successful unfollow action
+      // Update 'pageProfile' and 'popularProfiles',
       // by mapping through the results
       setProfileData((prevState) => ({
         ...prevState,
@@ -116,7 +116,7 @@ export const ProfileDataProvider = ({ children }) => {
   return (
     <ProfileDataContext.Provider value={profileData}>
       {/* Provide functions to child components*/}
-      {/* (1.3.1) provide hadndleUnfollow */}
+      {/* provide hadndleUnfollow */}
       <SetProfileDataContext.Provider
         value={{ setProfileData, handleFollow, handleUnfollow }}
       >
