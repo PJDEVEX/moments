@@ -1,6 +1,6 @@
-import { useState, useEffect, createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { axiosReq, axiosRes } from "../api/axiosDefaults.js";
+import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useHistory } from "react-router";
 
 // Create CurrentUserContext and SetCurrentUserContext
@@ -58,16 +58,13 @@ export const CurrentUserProvider = ({ children }) => {
         return Promise.reject(err);
       }
     );
-  });
 
-  // Attach response interceptor to axiosRes instance
-  useMemo(() => {
+    // Attach response interceptor to axiosRes instance
     axiosRes.interceptors.response.use(
       (response) => response,
       async (err) => {
         if (err.response?.status === 401) {
           try {
-            // (3) Refresh access token logic
             await axios.post("/dj-rest-auth/token/refresh/");
           } catch (err) {
             setCurrentUser((prevCurrentUser) => {
