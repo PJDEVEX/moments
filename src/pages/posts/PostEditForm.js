@@ -55,7 +55,7 @@ function PostEditForm() {
         // If not, redirect to the homepage
         is_owner ? setPostData({ title, image, content }) : history.push("/");
       } catch (err) {
-        console.log("handleMountError: ", err);
+        // console.log("handleMountError: ", err);
       }
     };
 
@@ -99,7 +99,7 @@ function PostEditForm() {
       // Redirect to the edited post
       history.push(`/posts/${id}`);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
       }

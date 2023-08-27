@@ -35,7 +35,7 @@ function PostsPage({ message, filter = "" }) {
         setHasLoaded(true);
       } catch (err) {
         // Bug print
-        console.log(err);
+        // console.log(err);
       }
     }; // Reset the 'hasLoaded' state to indicate data is not yet loaded
     setHasLoaded(false);

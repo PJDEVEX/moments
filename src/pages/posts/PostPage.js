@@ -39,10 +39,10 @@ function PostPage() {
         setPost({ results: [post] });
         // Set the fetched comments data
         setComments(comments);
-        console.log("Fetched Post:", post);
-        console.log("Fetched Post:", comments);
+        // console.log("Fetched Post:", post);
+        // console.log("Fetched Post:", comments);
       } catch (error) {
-        console.error("Error fetching post:", error);
+        // console.error("Error fetching post:", error);
       }
     };
     handleMount();

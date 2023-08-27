@@ -60,7 +60,7 @@ function ProfilePage() {
         setProfilePosts(profilePosts);
         setHasLoaded(true);
       } catch (err) {
-        console.log("Error in fetching user profile avatr: ", err);
+        // console.log("Error in fetching user profile avatr: ", err);
       }
     };
     fetchData();

@@ -54,7 +54,7 @@ export const ProfileDataProvider = ({ children }) => {
       // Handle successful follow action
     } catch (err) {
       // Handle errors that occur during the follow action
-      console.log("Error occurred while trying to follow:", err);
+      // console.log("Error occurred while trying to follow:", err);
     }
   };
 
@@ -85,7 +85,7 @@ export const ProfileDataProvider = ({ children }) => {
       }));
     } catch (err) {
       // handleUnfollow error
-      console.log("handleUnfollow error: ", err);
+      // console.log("handleUnfollow error: ", err);
     }
   };
 
@@ -104,7 +104,7 @@ export const ProfileDataProvider = ({ children }) => {
           popularProfiles: data,
         }));
       } catch (err) {
-        console.log("Error fetching popularProfile data: ", err);
+        // console.log("Error fetching popularProfile data: ", err);
       }
     };
 
