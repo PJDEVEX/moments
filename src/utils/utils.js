@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import { axiosReq } from "../api/axiosDefaults";
 
 export const fetchMoreData = async (resource, setResource) => {
@@ -63,4 +64,24 @@ export const unfollowHelper = (profile, clickedProfile) => {
     : // this ins not the profile that a user clicked on or
       // the own profile, so return unchanged
       profile;
+};
+
+// (1) Set the expiration timestamp of the refresh token in local storage
+// Decode the refresh token payload to get the expiration timestamp
+// Store the expiration timestamp in local storage
+export const setTokenTimestamp = (data) => {
+  const refreshTokenTimestamp = jwtDecode(data?.refresh_token).exp;
+  localStorage.setItem("refreshTokenTimestamp", refreshTokenTimestamp);
+};
+
+// (2) Check if a refresh token expiration timestamp is stored in local storage
+// Return true if a refresh token expiration timestamp is stored,
+// indicating a token refresh is needed
+export const shouldRefreshToken = () => {
+  return !!localStorage.getItem("refreshTokenTimestamp");
+};
+
+// (3) Remove the stored refresh token expiration timestamp from local storage
+export const removeTokenTimestamp = () => {
+  localStorage.removeItem("refreshTokenTimestamp");
 };

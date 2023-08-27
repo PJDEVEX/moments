@@ -4,10 +4,14 @@ import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
 
-import { useCurrentUser, useSetCurrentUser } from "../contexts/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../contexts/CurrentUserContext";
 import Avatar from "./Avatar";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
+import { removeTokenTimestamp } from "../utils/utils";
 
 const NavBar = () => {
   // Access currentUser
@@ -26,7 +30,7 @@ const NavBar = () => {
 
   // (use useClickOutsideToggle in Navbar
   // destructure the values
-  const { expanded, setExpanded, burgerRef} = useClickOutsideToggle();
+  const { expanded, setExpanded, burgerRef } = useClickOutsideToggle();
 
   // Define signout function
   const handleSignOut = async () => {
@@ -35,6 +39,8 @@ const NavBar = () => {
       await axios.post("dj_rest_auth/logout");
       // Reset currentUser to null
       setCurrentUser(null);
+      // (8) Remove token timestamp on token refresh failure
+      removeTokenTimestamp();
       // Handle errors
     } catch (error) {
       console.error("Sign out error:", error);

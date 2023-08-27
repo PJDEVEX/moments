@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { axiosReq, axiosRes } from "../api/axiosDefaults";
 import { useHistory } from "react-router";
+import { removeTokenTimestamp, shouldRefreshToken } from "../utils/utils";
 
 // Create CurrentUserContext and SetCurrentUserContext
 export const CurrentUserContext = createContext();
@@ -38,19 +39,24 @@ export const CurrentUserProvider = ({ children }) => {
   useMemo(() => {
     axiosReq.interceptors.request.use(
       async (config) => {
-        try {
-          // Refresh access token before sending the request
-          await axios.post("/dj-rest-auth/token/refresh/");
-        } catch (err) {
-          console.log("Error refreshing token:", err);
-          // Redirect to SignIn page and reset currentUser
-          setCurrentUser((prevCurrentUser) => {
-            if (prevCurrentUser) {
-              history.push("/signin");
-            }
-            return null;
-          });
-          return config;
+        // (5) Check if token refresh is needed
+        if (shouldRefreshToken()) {
+          try {
+            // Refresh access token before sending the request
+            await axios.post("/dj-rest-auth/token/refresh/");
+          } catch (err) {
+            console.log("Error refreshing token:", err);
+            // Redirect to SignIn page and reset currentUser
+            setCurrentUser((prevCurrentUser) => {
+              if (prevCurrentUser) {
+                history.push("/signin");
+              }
+              return null;
+            });
+            // (6) Remove token timestamp on token refresh failure
+            removeTokenTimestamp();
+            return config;
+          }
         }
         return config;
       },
@@ -73,6 +79,8 @@ export const CurrentUserProvider = ({ children }) => {
               }
               return null;
             });
+            // (7) Remove token timestamp on token refresh failure
+            removeTokenTimestamp();
           }
           return axios(err.config);
         }

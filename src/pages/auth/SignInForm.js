@@ -17,6 +17,7 @@ import axios from "axios";
 
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
+import { setTokenTimestamp } from "../../utils/utils";
 
 function SignInForm() {
   // Access currentUser and setCurrentUser
@@ -27,7 +28,7 @@ function SignInForm() {
   // to auto import useSetCurrentUser custom hook
   const setCurrentUser = useSetCurrentUser();
   // (2) calling useRedirect string value
-  useRedirect('loggedIn')
+  useRedirect("loggedIn");
 
   // Initialize signInData
   const [signInData, setSignInData] = useState({
@@ -52,9 +53,11 @@ function SignInForm() {
       const { data } = await axios.post("/dj-rest-auth/login/", signInData);
       // Update currentUser in SignInForm.js after successful sign
       setCurrentUser(data.user);
+      // (4) set the Timestamp value
+      setTokenTimestamp(data);
       // Redirect to "/" homepage on successful registration
       // history.push("/");
-      // (3) Redirect user to homepage on successful sign in
+      // Redirect user to homepage on successful sign in
       history.goBack();
     } catch (err) {
       setErrors(err.response?.data);
