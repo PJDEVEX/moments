@@ -45,10 +45,6 @@
     "node": "v18.17.0",
     "npm": "9.6.7"
   },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "msw": "^1.2.4"
-  },
   "jest": {
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
