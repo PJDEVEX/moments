@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Container from "react-bootstrap/Container";
+import { Col, Row, Container, Button, Image } from "react-bootstrap";
 
 import Asset from "../../components/Asset";
 
@@ -18,7 +16,7 @@ import {
   useProfileData,
   useSetProfileData,
 } from "../../contexts/ProfileDataContext";
-import { Button, Image } from "react-bootstrap";
+
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
@@ -72,7 +70,7 @@ function ProfilePage() {
     <>
       {profile?.is_owner && <ProfileEditDropdown id={profile?.id} />}
       <Row noGutters className="px-3 text-center">
-        <Col lg={3} className="text-lg-left">    
+        <Col lg={3} className="text-lg-left">
           <Image
             className={styles.ProfileImage}
             roundedCircle

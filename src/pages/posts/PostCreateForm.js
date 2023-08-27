@@ -1,11 +1,14 @@
 import React, { useRef, useState } from "react";
 
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Container from "react-bootstrap/Container";
-import Image from "react-bootstrap/Image";
+import {
+  Form,
+  Button,
+  Row,
+  Col,
+  Container,
+  Image,
+  Alert,
+} from "react-bootstrap";
 
 import Upload from "../../assets/upload.png";
 
@@ -15,12 +18,11 @@ import btnStyles from "../../styles/Button.module.css";
 import Asset from "../../components/Asset";
 import { useHistory } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
-import { Alert } from "react-bootstrap";
 import { useRedirect } from "../../hooks/useRedirect";
 
 function PostCreateForm() {
   // (6) Calling useRedirect string value
-  useRedirect('loggedOut')
+  useRedirect("loggedOut");
   // Create and initialize errors values
   const [errors, setErrors] = useState({});
 
@@ -114,7 +116,6 @@ function PostCreateForm() {
           {message}
         </Alert>
       ))}
-
 
       <Button
         className={`${btnStyles.Button} ${btnStyles.Blue}`}
