@@ -8,19 +8,17 @@ import { CurrentUserProvider } from "./contexts/CurrentUserContext";
 import { ProfileDataProvider } from "./contexts/ProfileDataContext";
 
 ReactDOM.render(
-  <React.StrictMode>
-    {/* Add the Router to the App component */}
-    <Router>
-      {/* Wrap the App component with the CurrentUserProvider */}
-      <CurrentUserProvider>
-        {/* Provide current user context */}
-        <ProfileDataProvider>
-          {/* Provide profile data context */}
-          <App />
-        </ProfileDataProvider>
-      </CurrentUserProvider>
-    </Router>
-  </React.StrictMode>,
+  // Add the Router to the App component
+  <Router>
+    {/* Wrap the App component with the CurrentUserProvider */}
+    <CurrentUserProvider>
+      {/* Provide current user context */}
+      <ProfileDataProvider>
+        {/* Provide profile data context */}
+        <App />
+      </ProfileDataProvider>
+    </CurrentUserProvider>
+  </Router>,
   document.getElementById("root")
 );
 
