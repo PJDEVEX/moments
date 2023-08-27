@@ -12,6 +12,7 @@ import { axiosReq } from "../../api/axiosDefaults";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import PopularProfiles from "../profiles/PopularProfiles";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 // Destructure the message and filter  and initiate to empty string
 function PostsPage({ message, filter = "" }) {
@@ -23,6 +24,8 @@ function PostsPage({ message, filter = "" }) {
   const { pathname } = useLocation();
   //   Initialize state for search query
   const [query, setQuery] = useState("");
+  // Call useCurrentUser and initiate
+  const CurrentUser = useCurrentUser();
 
   // (Fetching Posts Based on Filter
   useEffect(() => {
@@ -51,7 +54,7 @@ function PostsPage({ message, filter = "" }) {
 
     // useEffect hook with dependencies 'filter' and 'pathname', query,
     // this will trigger the effect whenever filter or pathname changes
-  }, [filter, query, pathname]);
+  }, [filter, query, pathname, CurrentUser]);
 
   return (
     <Row className="h-100">
